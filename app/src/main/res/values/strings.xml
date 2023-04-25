@@ -10,4 +10,5 @@
     <string name="start_training">Start Training</string>
     <string name="battle">Battle</string>
     <string name="battle_log">Battle Log</string>
+    <string name="lutemon_image">LUTEMON</string>
 </resources>
