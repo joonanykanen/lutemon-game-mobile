@@ -35,6 +35,15 @@ public class Lutemon {
         }
     }
 
+    public void train() {
+        experience++;
+    }
+
+    public String getStats() {
+        return "Name: " + name + ", Color: " + color + ", Attack: " + attack + ", Defense: " + defense + ", Experience: " + experience + ", Health: " + health + "/" + maxHealth;
+    }
+
+
     public String getName() {
         return name;
     }

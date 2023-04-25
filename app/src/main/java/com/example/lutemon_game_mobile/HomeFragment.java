@@ -23,6 +23,48 @@ public class HomeFragment extends Fragment {
     private Spinner lutemonColorSpinner;
     private Button createLutemonButton;
 
+    private Lutemon createLutemon(String name, String color) {
+        int attack, defense, maxHealth, imageResource;
+
+        switch (color) {
+            case "White":
+                attack = 5;
+                defense = 4;
+                maxHealth = 20;
+                imageResource = R.drawable.lutemon_white;
+                break;
+            case "Green":
+                attack = 6;
+                defense = 3;
+                maxHealth = 19;
+                imageResource = R.drawable.lutemon_green;
+                break;
+            case "Pink":
+                attack = 7;
+                defense = 2;
+                maxHealth = 18;
+                imageResource = R.drawable.lutemon_pink;
+                break;
+            case "Orange":
+                attack = 8;
+                defense = 1;
+                maxHealth = 17;
+                imageResource = R.drawable.lutemon_orange;
+                break;
+            case "Black":
+                attack = 9;
+                defense = 0;
+                maxHealth = 16;
+                imageResource = R.drawable.lutemon_black;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + color);
+        }
+
+        return new Lutemon(name, attack, defense, maxHealth, imageResource);
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +90,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 String name = lutemonNameEditText.getText().toString();
                 String color = lutemonColorSpinner.getSelectedItem().toString();
-                Lutemon newLutemon = new Lutemon(name, color);
+                Lutemon newLutemon = createLutemon(name, color);
                 storage.addLutemon(newLutemon);
                 lutemonAdapter.notifyDataSetChanged();
                 lutemonNameEditText.setText("");

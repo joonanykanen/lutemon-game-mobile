@@ -68,7 +68,23 @@ public class BattleFragment extends Fragment {
             public void onClick(View v) {
                 if (selectedLutemonA != null && selectedLutemonB != null && selectedLutemonA != selectedLutemonB) {
                     StringBuilder battleLog = new StringBuilder();
-                    Lutemon.performBattle(selectedLutemonA, selectedLutemonB, battleLog);
+
+                    // Perform the Battle
+                    while (selectedLutemonA.isAlive() && selectedLutemonB.isAlive()) {
+                        selectedLutemonB.defense(selectedLutemonA);
+                        if (selectedLutemonB.isAlive()) {
+                            battleLog.append(selectedLutemonB.getName() + " managed to avoid death.\n");
+                            Lutemon temp = selectedLutemonA;
+                            selectedLutemonA = selectedLutemonB;
+                            selectedLutemonB = temp;
+                        } else {
+                            battleLog.append(selectedLutemonB.getName() + " died.\n");
+                            selectedLutemonA.addExperience(1);
+                            selectedLutemonA.heal();
+                            break;
+                        }
+                    }
+
                     battleLogTextView.setText(battleLog.toString());
                 }
             }
