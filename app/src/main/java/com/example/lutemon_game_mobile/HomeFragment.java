@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
         createLutemonButton = rootView.findViewById(R.id.createLutemonButton);
 
         storage = Storage.getInstance();
-        lutemonAdapter = new LutemonAdapter(getActivity(), storage);
+        lutemonAdapter = new LutemonAdapter(getActivity(), storage.getLutemons());
         lutemonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lutemonRecyclerView.setAdapter(lutemonAdapter);
 
