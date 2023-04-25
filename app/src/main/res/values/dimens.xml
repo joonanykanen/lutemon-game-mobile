@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="lutemon_list_item_padding">8dp</dimen>
+    <dimen name="lutemon_list_item_image_size">48dp</dimen>
+    <dimen name="lutemon_list_item_text_size">16sp</dimen>
+    <dimen name="button_padding">8dp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="edit_text_padding">8dp</dimen>
+    <dimen name="edit_text_text_size">14sp</dimen>
+</resources>
