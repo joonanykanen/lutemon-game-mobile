@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class BattleFragment extends Fragment {
 
     private Spinner lutemonSpinnerA;
@@ -66,28 +68,35 @@ public class BattleFragment extends Fragment {
         startBattleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (storage.getLutemons().size() < 2) {
-                    battleLogTextView.setText(getString(R.string.lutemons_required_for_battle));
-                    return;
-                }
+                // ... (previous checks)
 
                 if (selectedLutemonA != null && selectedLutemonB != null && selectedLutemonA != selectedLutemonB) {
                     StringBuilder battleLog = new StringBuilder();
 
                     // Perform the Battle
                     while (selectedLutemonA.isAlive() && selectedLutemonB.isAlive()) {
-                        selectedLutemonB.defense(selectedLutemonA);
-                        if (selectedLutemonB.isAlive()) {
-                            battleLog.append(selectedLutemonB.getName() + " managed to avoid death.\n");
-                            Lutemon temp = selectedLutemonA;
-                            selectedLutemonA = selectedLutemonB;
-                            selectedLutemonB = temp;
+                        int damageDealt = selectedLutemonA.attack() - selectedLutemonB.getDefense();
+
+                        if (damageDealt > 0) {
+                            selectedLutemonB.takeDamage(damageDealt);
+                            battleLog.append(selectedLutemonA.getName()).append(" dealt ").append(damageDealt).append(" damage to ").append(selectedLutemonB.getName()).append(".\n");
+                        } else if (damageDealt == 0) {
+                            battleLog.append(selectedLutemonA.getName()).append(" missed their attack on ").append(selectedLutemonB.getName()).append(".\n");
                         } else {
-                            battleLog.append(selectedLutemonB.getName() + " died.\n");
+                            battleLog.append(selectedLutemonB.getName()).append(" evaded the attack from ").append(selectedLutemonA.getName()).append(".\n");
+                        }
+
+                        if (!selectedLutemonB.isAlive()) {
+                            battleLog.append(selectedLutemonB.getName()).append(" was defeated.\n");
                             selectedLutemonA.addExperience(1);
                             selectedLutemonA.heal();
                             break;
                         }
+
+                        // Swap Lutemons
+                        Lutemon temp = selectedLutemonA;
+                        selectedLutemonA = selectedLutemonB;
+                        selectedLutemonB = temp;
                     }
 
                     battleLogTextView.setText(battleLog.toString());
