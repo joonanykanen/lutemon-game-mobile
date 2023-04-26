@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ public class TrainingFragment extends Fragment {
     private Storage storage;
     private Lutemon selectedLutemon;
 
+    private ImageView lutemonImageView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class TrainingFragment extends Fragment {
         lutemonSpinner = rootView.findViewById(R.id.lutemonSpinner);
         lutemonStatsTextView = rootView.findViewById(R.id.lutemonStatsTextView);
         trainLutemonButton = rootView.findViewById(R.id.trainLutemonButton);
+        lutemonImageView = rootView.findViewById(R.id.lutemonImageView);
 
         storage = Storage.getInstance();
 
@@ -64,8 +68,10 @@ public class TrainingFragment extends Fragment {
 
     private void updateLutemonStats() {
         if (selectedLutemon != null) {
-            lutemonStatsTextView.setText(selectedLutemon.toString());
+            lutemonImageView.setImageResource(selectedLutemon.getImageResource());
+            lutemonStatsTextView.setText(selectedLutemon.getStats());
         } else {
+            lutemonImageView.setImageDrawable(null);
             lutemonStatsTextView.setText("");
         }
     }
