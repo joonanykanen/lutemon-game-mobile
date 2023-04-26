@@ -66,6 +66,11 @@ public class BattleFragment extends Fragment {
         startBattleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (storage.getLutemons().size() < 2) {
+                    battleLogTextView.setText(getString(R.string.lutemons_required_for_battle));
+                    return;
+                }
+
                 if (selectedLutemonA != null && selectedLutemonB != null && selectedLutemonA != selectedLutemonB) {
                     StringBuilder battleLog = new StringBuilder();
 
@@ -92,4 +97,23 @@ public class BattleFragment extends Fragment {
 
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateSpinnerAdapter();
+    }
+
+    private void updateSpinnerAdapter() {
+        if (getActivity() == null) {
+            return;
+        }
+
+        ArrayAdapter<Lutemon> lutemonArrayAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, storage.getLutemons());
+        lutemonArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        lutemonSpinnerA.setAdapter(lutemonArrayAdapter);
+        lutemonSpinnerB.setAdapter(lutemonArrayAdapter);
+    }
+
 }

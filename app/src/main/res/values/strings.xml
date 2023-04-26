@@ -11,4 +11,5 @@
     <string name="battle">Battle</string>
     <string name="battle_log">Battle Log</string>
     <string name="lutemon_image">LUTEMON</string>
+    <string name="lutemons_required_for_battle">You need at least two Lutemons to start a battle.</string>
 </resources>
