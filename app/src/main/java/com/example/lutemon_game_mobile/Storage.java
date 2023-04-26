@@ -22,9 +22,11 @@ public class Storage {
 
     private void initializeLutemons() {
         // Add Lutemons here
-        lutemons.add(new Lutemon("Lutemon A", 10, 10, 10, R.drawable.lutemon_white));
-        lutemons.add(new Lutemon("Lutemon B", 12, 8, 12, R.drawable.lutemon_green));
-        lutemons.add(new Lutemon("Lutemon C", 8, 14, 8, R.drawable.lutemon_pink));
+        lutemons.add(new Lutemon("White Lutemon", 5, 4, 20, R.drawable.lutemon_white));
+        lutemons.add(new Lutemon("Green Lutemon", 6, 3, 19, R.drawable.lutemon_green));
+        lutemons.add(new Lutemon("Pink Lutemon", 7, 2, 18, R.drawable.lutemon_pink));
+        lutemons.add(new Lutemon("Orange Lutemon", 8, 1, 17, R.drawable.lutemon_orange));
+        lutemons.add(new Lutemon("Black Lutemon", 9, 0, 16, R.drawable.lutemon_black));
         // ...
     }
 
