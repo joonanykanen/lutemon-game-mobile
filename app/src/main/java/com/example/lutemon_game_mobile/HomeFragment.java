@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
                 throw new IllegalStateException("Unexpected value: " + color);
         }
 
-        return new Lutemon(name, attack, defense, maxHealth, imageResource);
+        return new Lutemon(name, color, attack, defense, maxHealth, imageResource);
     }
 
 

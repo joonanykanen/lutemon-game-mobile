@@ -15,8 +15,9 @@ public class Lutemon {
 
     private static int idCounter = 0;
 
-    public Lutemon(String name, int attack, int defense, int maxHealth, int imageResource) {
+    public Lutemon(String name, String color, int attack, int defense, int maxHealth, int imageResource) {
         this.name = name;
+        this.color = color;
         this.attack = attack;
         this.defense = defense;
         this.maxHealth = maxHealth;
