@@ -43,6 +43,10 @@ public class Lutemon {
         return "Name: " + name + ", Color: " + color + ", Attack: " + attack + ", Defense: " + defense + ", Experience: " + experience + ", Health: " + health + "/" + maxHealth;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 
     public String getName() {
         return name;
