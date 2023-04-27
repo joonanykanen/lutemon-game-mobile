@@ -3,6 +3,9 @@ package com.example.lutemon_game_mobile;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -37,6 +40,8 @@ public class BattleFragment extends Fragment {
     private Lutemon selectedLutemonB;
     private TextView battleLogMessage;
     private int turn;
+    private TextView lutemonHealthTextA;
+    private TextView lutemonHealthTextB;
 
     @Nullable
     @Override
@@ -51,6 +56,8 @@ public class BattleFragment extends Fragment {
         lutemonHealthB = rootView.findViewById(R.id.lutemonHealthB);
         startBattleButton = rootView.findViewById(R.id.startBattleButton);
         battleLogMessage = rootView.findViewById(R.id.battleLogMessage);
+        lutemonHealthTextA = rootView.findViewById(R.id.lutemonHealthTextA);
+        lutemonHealthTextB = rootView.findViewById(R.id.lutemonHealthTextB);
 
         storage = Storage.getInstance();
 
@@ -67,6 +74,8 @@ public class BattleFragment extends Fragment {
                 lutemonIconA.setImageResource(selectedLutemonA.getImageResource());
                 lutemonHealthA.setMax(selectedLutemonA.getMaxHealth());
                 lutemonHealthA.setProgress(selectedLutemonA.getHealth());
+                lutemonHealthTextA.setText(selectedLutemonA.getHealth() + "/" + selectedLutemonA.getMaxHealth());
+                updateHealthBarColor(lutemonHealthA, selectedLutemonA.getHealth(), selectedLutemonA.getMaxHealth());
             }
 
             @Override
@@ -81,6 +90,8 @@ public class BattleFragment extends Fragment {
                 lutemonIconB.setImageResource(selectedLutemonB.getImageResource());
                 lutemonHealthB.setMax(selectedLutemonB.getMaxHealth());
                 lutemonHealthB.setProgress(selectedLutemonB.getHealth());
+                lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
+                updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
             }
 
             @Override
@@ -124,6 +135,7 @@ public class BattleFragment extends Fragment {
 
         final Handler handler = new Handler();
         final Runnable battleSequence = new Runnable() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void run() {
                 // Perform the Battle
@@ -150,7 +162,11 @@ public class BattleFragment extends Fragment {
                             battleLogMessage.setText(selectedLutemonB.getName() + " evaded the attack from " + selectedLutemonA.getName() + ".");
                         }
                     }
-
+                    // Update health text and health bar colors for both Lutemons
+                    lutemonHealthTextA.setText(selectedLutemonA.getHealth() + "/" + selectedLutemonA.getMaxHealth());
+                    lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
+                    updateHealthBarColor(lutemonHealthA, selectedLutemonA.getHealth(), selectedLutemonA.getMaxHealth());
+                    updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
 
                     if (!selectedLutemonB.isAlive()) {
                         handleBattleEnd();
@@ -185,7 +201,11 @@ public class BattleFragment extends Fragment {
         selectedLutemonB.heal(); // Heal the defeated Lutemon
         selectedLutemonB.applyStatPenalty(); // Apply stat penalty to the defeated Lutemon
         lutemonHealthA.setProgress(selectedLutemonA.getHealth()); // Update health bar
-        lutemonHealthB.setProgress(selectedLutemonB.getHealth()); // Update health bar
+        lutemonHealthB.setProgress(selectedLutemonB.getHealth()); // Update health bar        // Update health text and health bar colors for both Lutemons
+        lutemonHealthTextA.setText(selectedLutemonA.getHealth() + "/" + selectedLutemonA.getMaxHealth());
+        lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
+        updateHealthBarColor(lutemonHealthA, selectedLutemonA.getHealth(), selectedLutemonA.getMaxHealth());
+        updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
     }
 
     private void playAttackSound() {
@@ -227,6 +247,14 @@ public class BattleFragment extends Fragment {
         });
 
         attackAnimation.start();
+    }
+    private void updateHealthBarColor(ProgressBar healthBar, int currentHealth, int maxHealth) {
+        double healthPercentage = (double) currentHealth / maxHealth;
+        if (healthPercentage <= 0.2) {
+            healthBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        } else {
+            healthBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+        }
     }
 
 }
