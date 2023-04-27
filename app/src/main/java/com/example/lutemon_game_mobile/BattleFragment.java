@@ -3,7 +3,6 @@ package com.example.lutemon_game_mobile;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -135,7 +134,6 @@ public class BattleFragment extends Fragment {
 
         final Handler handler = new Handler();
         final Runnable battleSequence = new Runnable() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void run() {
                 // Perform the Battle
@@ -150,6 +148,8 @@ public class BattleFragment extends Fragment {
                     if (damageDealt > 0) {
                         selectedLutemonB.takeDamage(damageDealt);
                         lutemonHealthB.setProgress(selectedLutemonB.getHealth());
+                        lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
+                        updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
                         battleLogMessage.setText(selectedLutemonA.getName() + " dealt " + damageDealt + " damage to " + selectedLutemonB.getName() + ".");
                     } else if (damageDealt == 0) {
                         battleLogMessage.setText(selectedLutemonA.getName() + " missed their attack on " + selectedLutemonB.getName() + ".");
@@ -157,16 +157,13 @@ public class BattleFragment extends Fragment {
                         if (selectedLutemonA.attack() < selectedLutemonB.getDefense()) {
                             selectedLutemonB.takeDamage(1); // Apply minimum damage
                             lutemonHealthB.setProgress(selectedLutemonB.getHealth());
+                            lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
+                            updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
                             battleLogMessage.setText(selectedLutemonA.getName() + " dealt minimal damage to " + selectedLutemonB.getName() + ".");
                         } else {
                             battleLogMessage.setText(selectedLutemonB.getName() + " evaded the attack from " + selectedLutemonA.getName() + ".");
                         }
                     }
-                    // Update health text and health bar colors for both Lutemons
-                    lutemonHealthTextA.setText(selectedLutemonA.getHealth() + "/" + selectedLutemonA.getMaxHealth());
-                    lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
-                    updateHealthBarColor(lutemonHealthA, selectedLutemonA.getHealth(), selectedLutemonA.getMaxHealth());
-                    updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
 
                     if (!selectedLutemonB.isAlive()) {
                         handleBattleEnd();
@@ -180,6 +177,12 @@ public class BattleFragment extends Fragment {
                         ProgressBar tempHealth = lutemonHealthA;
                         lutemonHealthA = lutemonHealthB;
                         lutemonHealthB = tempHealth;
+
+                        // Swap health bar texts
+                        TextView tempHealthText = lutemonHealthTextA;
+                        lutemonHealthTextA = lutemonHealthTextB;
+                        lutemonHealthTextB = tempHealthText;
+
                         turn++;
                         // Continue the battle sequence with a random delay between 1000 ms and 2000 ms
                         handler.postDelayed(this, 1000 + new Random().nextInt(1000));
@@ -201,10 +204,10 @@ public class BattleFragment extends Fragment {
         selectedLutemonB.heal(); // Heal the defeated Lutemon
         selectedLutemonB.applyStatPenalty(); // Apply stat penalty to the defeated Lutemon
         lutemonHealthA.setProgress(selectedLutemonA.getHealth()); // Update health bar
-        lutemonHealthB.setProgress(selectedLutemonB.getHealth()); // Update health bar        // Update health text and health bar colors for both Lutemons
         lutemonHealthTextA.setText(selectedLutemonA.getHealth() + "/" + selectedLutemonA.getMaxHealth());
-        lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
         updateHealthBarColor(lutemonHealthA, selectedLutemonA.getHealth(), selectedLutemonA.getMaxHealth());
+        lutemonHealthB.setProgress(selectedLutemonB.getHealth()); // Update health bar
+        lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
         updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
     }
 
