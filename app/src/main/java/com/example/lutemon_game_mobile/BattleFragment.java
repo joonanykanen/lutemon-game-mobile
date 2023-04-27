@@ -66,6 +66,15 @@ public class BattleFragment extends Fragment {
         lutemonSpinnerA.setAdapter(lutemonArrayAdapter);
         lutemonSpinnerB.setAdapter(lutemonArrayAdapter);
 
+        // Check if there are no Lutemons available
+        if (storage.getLutemons().isEmpty()) {
+            battleLogMessage.setText("No Lutemons available. Please add Lutemons first.");
+            lutemonSpinnerA.setEnabled(false);
+            lutemonSpinnerB.setEnabled(false);
+            startBattleButton.setEnabled(false);
+            return rootView;
+        }
+
         lutemonSpinnerA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -75,6 +84,11 @@ public class BattleFragment extends Fragment {
                 lutemonHealthA.setProgress(selectedLutemonA.getHealth());
                 lutemonHealthTextA.setText(selectedLutemonA.getHealth() + "/" + selectedLutemonA.getMaxHealth());
                 updateHealthBarColor(lutemonHealthA, selectedLutemonA.getHealth(), selectedLutemonA.getMaxHealth());
+
+                // Update Spinner B selection
+                if (selectedLutemonA == selectedLutemonB && lutemonSpinnerB.getAdapter().getCount() > 1) {
+                    lutemonSpinnerB.setSelection((position + 1) % lutemonSpinnerB.getAdapter().getCount());
+                }
             }
 
             @Override
@@ -91,6 +105,11 @@ public class BattleFragment extends Fragment {
                 lutemonHealthB.setProgress(selectedLutemonB.getHealth());
                 lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
                 updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
+
+                // Update Spinner A selection
+                if (selectedLutemonA == selectedLutemonB && lutemonSpinnerA.getAdapter().getCount() > 1) {
+                    lutemonSpinnerA.setSelection((position + 1) % lutemonSpinnerA.getAdapter().getCount());
+                }
             }
 
             @Override
