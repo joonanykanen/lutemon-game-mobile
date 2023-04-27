@@ -32,7 +32,7 @@ public class Lutemon {
     }
     private static final Random random = new Random();
 
-    private boolean isCriticalHit() {
+    public boolean isCriticalHit() {
         // Critical hit chance: 10%
         return random.nextInt(10) == 0;
     }
