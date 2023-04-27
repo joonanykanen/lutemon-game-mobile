@@ -91,7 +91,9 @@ public class BattleFragment extends Fragment {
                             selectedLutemonA.addExperience(1);
                             selectedLutemonA.incrementBattlesWon(); // Update battle statistics
                             selectedLutemonB.incrementBattlesLost(); // Update battle statistics
-                            selectedLutemonA.heal();
+                            selectedLutemonA.heal(); // Heal the winning Lutemon
+                            selectedLutemonB.heal(); // Heal the defeated Lutemon
+                            selectedLutemonB.applyStatPenalty(); // Apply stat penalty to the defeated Lutemon
                             break;
                         }
 

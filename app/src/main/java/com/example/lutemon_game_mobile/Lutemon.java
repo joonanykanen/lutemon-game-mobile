@@ -71,6 +71,12 @@ public class Lutemon {
         }
     }
 
+    public void applyStatPenalty() {
+        int penaltyFactor = 2;
+        attack = Math.max(1, attack - penaltyFactor);
+        defense = Math.max(1, defense - penaltyFactor);
+    }
+
     public void takeDamage(int damage) {
         health -= damage;
     }

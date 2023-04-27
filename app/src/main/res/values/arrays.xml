@@ -14,29 +14,29 @@
         <item>@array/lutemon_black_stats</item>
     </array>
     <integer-array name="lutemon_white_stats">
-        <item>5</item> <!-- Attack -->
-        <item>4</item> <!-- Defense -->
+        <item>6</item> <!-- Attack -->
+        <item>6</item> <!-- Defense -->
         <item>20</item> <!-- Max Health -->
     </integer-array>
     <integer-array name="lutemon_pink_stats">
+        <item>5</item>
         <item>7</item>
-        <item>2</item>
-        <item>18</item>
+        <item>22</item>
     </integer-array>
     <integer-array name="lutemon_orange_stats">
-        <item>8</item>
-        <item>1</item>
-        <item>17</item>
+        <item>5</item>
+        <item>5</item>
+        <item>25</item>
     </integer-array>
     <integer-array name="lutemon_green_stats">
-        <item>6</item>
-        <item>3</item>
-        <item>19</item>
+        <item>4</item>
+        <item>8</item>
+        <item>18</item>
     </integer-array>
     <integer-array name="lutemon_black_stats">
         <item>9</item>
-        <item>0</item>
-        <item>16</item>
+        <item>3</item>
+        <item>20</item>
     </integer-array>
     <array name="lutemon_image_resources">
         <item>@drawable/lutemon_white</item>
