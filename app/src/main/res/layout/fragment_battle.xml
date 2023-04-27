@@ -36,7 +36,8 @@
             android:id="@+id/lutemonIconA"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="16dp" />
+            android:layout_margin="16dp"
+            android:scaleX="-1" />
 
         <ImageView
             android:id="@+id/lutemonIconB"
