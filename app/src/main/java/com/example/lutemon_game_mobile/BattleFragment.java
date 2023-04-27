@@ -1,5 +1,9 @@
 package com.example.lutemon_game_mobile;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +36,7 @@ public class BattleFragment extends Fragment {
     private Lutemon selectedLutemonA;
     private Lutemon selectedLutemonB;
     private TextView battleLogMessage;
+    private int turn;
 
     @Nullable
     @Override
@@ -86,7 +91,7 @@ public class BattleFragment extends Fragment {
         startBattleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // ... (previous checks)
+                turn = 0;
 
                 if (selectedLutemonA != null && selectedLutemonB != null && selectedLutemonA != selectedLutemonB) {
                     animateBattle();
@@ -116,8 +121,6 @@ public class BattleFragment extends Fragment {
     }
 
     private void animateBattle() {
-        // Add your animation logic here. You can use ObjectAnimator, ValueAnimator, or custom animations.
-        // Update the health progress bars according to the Lutemon's health.
 
         final Handler handler = new Handler();
         final Runnable battleSequence = new Runnable() {
@@ -125,6 +128,10 @@ public class BattleFragment extends Fragment {
             public void run() {
                 // Perform the Battle
                 if (selectedLutemonA.isAlive() && selectedLutemonB.isAlive()) {
+                    ImageView attacker = (turn % 2 == 0) ? lutemonIconA : lutemonIconB;
+                    ImageView defender = (turn % 2 == 0) ? lutemonIconB : lutemonIconA;
+                    animateAttack(attacker, defender);
+
                     int damageDealt = selectedLutemonA.attack() - selectedLutemonB.getDefense();
 
                     if (damageDealt > 0) {
@@ -149,7 +156,7 @@ public class BattleFragment extends Fragment {
                         ProgressBar tempHealth = lutemonHealthA;
                         lutemonHealthA = lutemonHealthB;
                         lutemonHealthB = tempHealth;
-
+                        turn++;
                         // Continue the battle sequence
                         handler.postDelayed(this, 1000);
                     }
@@ -171,6 +178,27 @@ public class BattleFragment extends Fragment {
         selectedLutemonB.applyStatPenalty(); // Apply stat penalty to the defeated Lutemon
         lutemonHealthA.setProgress(selectedLutemonA.getHealth()); // Update health bar
         lutemonHealthB.setProgress(selectedLutemonB.getHealth()); // Update health bar
+    }
+
+    private void playAttackSound() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.hit_sound);
+        mediaPlayer.setOnCompletionListener(mp -> mp.release());
+        mediaPlayer.start();
+    }
+
+    private void animateAttack(final ImageView attacker, final ImageView defender) {
+        ObjectAnimator attackAnimation = ObjectAnimator.ofFloat(attacker, "translationX", 0, defender.getX() - attacker.getX(), 0);
+        attackAnimation.setDuration(500);
+
+        attackAnimation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                playAttackSound();
+            }
+        });
+
+        attackAnimation.start();
     }
 
 }
