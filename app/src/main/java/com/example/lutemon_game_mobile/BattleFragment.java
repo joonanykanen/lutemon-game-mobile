@@ -142,8 +142,15 @@ public class BattleFragment extends Fragment {
                     } else if (damageDealt == 0) {
                         battleLogMessage.setText(selectedLutemonA.getName() + " missed their attack on " + selectedLutemonB.getName() + ".");
                     } else {
-                        battleLogMessage.setText(selectedLutemonB.getName() + " evaded the attack from " + selectedLutemonA.getName() + ".");
+                        if (selectedLutemonA.attack() < selectedLutemonB.getDefense()) {
+                            selectedLutemonB.takeDamage(1); // Apply minimum damage
+                            lutemonHealthB.setProgress(selectedLutemonB.getHealth());
+                            battleLogMessage.setText(selectedLutemonA.getName() + " dealt minimal damage to " + selectedLutemonB.getName() + ".");
+                        } else {
+                            battleLogMessage.setText(selectedLutemonB.getName() + " evaded the attack from " + selectedLutemonA.getName() + ".");
+                        }
                     }
+
 
                     if (!selectedLutemonB.isAlive()) {
                         handleBattleEnd();
