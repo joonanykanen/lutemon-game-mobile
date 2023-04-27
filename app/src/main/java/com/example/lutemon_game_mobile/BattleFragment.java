@@ -128,9 +128,10 @@ public class BattleFragment extends Fragment {
             public void run() {
                 // Perform the Battle
                 if (selectedLutemonA.isAlive() && selectedLutemonB.isAlive()) {
+                    boolean isCriticalHit = selectedLutemonA.isCriticalHit();
                     ImageView attacker = (turn % 2 == 0) ? lutemonIconA : lutemonIconB;
                     ImageView defender = (turn % 2 == 0) ? lutemonIconB : lutemonIconA;
-                    animateAttack(attacker, defender);
+                    animateAttack(attacker, defender, isCriticalHit);
 
                     int damageDealt = selectedLutemonA.attack() - selectedLutemonB.getDefense();
 
@@ -157,8 +158,8 @@ public class BattleFragment extends Fragment {
                         lutemonHealthA = lutemonHealthB;
                         lutemonHealthB = tempHealth;
                         turn++;
-                        // Continue the battle sequence
-                        handler.postDelayed(this, 1000);
+                        // Continue the battle sequence with a random delay between 1000 ms and 2000 ms
+                        handler.postDelayed(this, 1000 + new Random().nextInt(1000));
                     }
                 }
             }
@@ -182,19 +183,39 @@ public class BattleFragment extends Fragment {
 
     private void playAttackSound() {
         MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.hit_sound);
-        mediaPlayer.setOnCompletionListener(mp -> mp.release());
+        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
         mediaPlayer.start();
     }
 
-    private void animateAttack(final ImageView attacker, final ImageView defender) {
+    private void playCriticalHitSound() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.hit_critical_sound);
+        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+        mediaPlayer.start();
+    }
+
+    private void animateAttack(final ImageView attacker, final ImageView defender, final boolean isCriticalHit) {
         ObjectAnimator attackAnimation = ObjectAnimator.ofFloat(attacker, "translationX", 0, defender.getX() - attacker.getX(), 0);
         attackAnimation.setDuration(500);
+
+        if (isCriticalHit) {
+            // Scale animation for critical hit
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(attacker, "scaleX", 1.0f, 1.5f, 1.0f);
+            scaleX.setDuration(500);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(attacker, "scaleY", 1.0f, 1.5f, 1.0f);
+            scaleY.setDuration(500);
+            scaleX.start();
+            scaleY.start();
+        }
 
         attackAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                playAttackSound();
+                if (isCriticalHit) {
+                    playCriticalHitSound();
+                } else {
+                    playAttackSound();
+                }
             }
         });
 
