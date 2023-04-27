@@ -13,6 +13,8 @@ public class Lutemon {
     private int id;
     private int imageResource;
 
+    private int battlesWon;
+    private int battlesLost;
     private static int idCounter = 0;
 
     public Lutemon(String name, String color, int attack, int defense, int maxHealth, int imageResource) {
@@ -24,6 +26,8 @@ public class Lutemon {
         this.health = maxHealth;
         this.experience = 0;
         this.imageResource = imageResource;
+        this.battlesWon = 0;
+        this.battlesLost = 0;
         this.id = idCounter++;
     }
     private static final Random random = new Random();
@@ -77,6 +81,18 @@ public class Lutemon {
 
     public String getStats() {
         return "Color: " + color + ", Attack: " + attack + ", Defense: " + defense + ", Experience: " + experience + ", Health: " + health + "/" + maxHealth;
+    }
+
+    public void incrementBattlesWon() {
+        battlesWon++;
+    }
+
+    public void incrementBattlesLost() {
+        battlesLost++;
+    }
+
+    public String getBattleStats() {
+        return "Battles Won: " + battlesWon + ", Battles Lost: " + battlesLost;
     }
 
     @Override

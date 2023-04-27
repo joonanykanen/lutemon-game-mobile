@@ -89,6 +89,8 @@ public class BattleFragment extends Fragment {
                         if (!selectedLutemonB.isAlive()) {
                             battleLog.append(selectedLutemonB.getName()).append(" was defeated.\n");
                             selectedLutemonA.addExperience(1);
+                            selectedLutemonA.incrementBattlesWon(); // Update battle statistics
+                            selectedLutemonB.incrementBattlesLost(); // Update battle statistics
                             selectedLutemonA.heal();
                             break;
                         }
