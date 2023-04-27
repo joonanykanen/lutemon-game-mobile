@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="lutemon_colors">
         <item>White</item>
@@ -7,4 +6,43 @@
         <item>Green</item>
         <item>Black</item>
     </string-array>
+    <array name="lutemon_base_stats">
+        <item>@array/lutemon_white_stats</item>
+        <item>@array/lutemon_pink_stats</item>
+        <item>@array/lutemon_orange_stats</item>
+        <item>@array/lutemon_green_stats</item>
+        <item>@array/lutemon_black_stats</item>
+    </array>
+    <integer-array name="lutemon_white_stats">
+        <item>5</item> <!-- Attack -->
+        <item>4</item> <!-- Defense -->
+        <item>20</item> <!-- Max Health -->
+    </integer-array>
+    <integer-array name="lutemon_pink_stats">
+        <item>7</item>
+        <item>2</item>
+        <item>18</item>
+    </integer-array>
+    <integer-array name="lutemon_orange_stats">
+        <item>8</item>
+        <item>1</item>
+        <item>17</item>
+    </integer-array>
+    <integer-array name="lutemon_green_stats">
+        <item>6</item>
+        <item>3</item>
+        <item>19</item>
+    </integer-array>
+    <integer-array name="lutemon_black_stats">
+        <item>9</item>
+        <item>0</item>
+        <item>16</item>
+    </integer-array>
+    <array name="lutemon_image_resources">
+        <item>@drawable/lutemon_white</item>
+        <item>@drawable/lutemon_pink</item>
+        <item>@drawable/lutemon_orange</item>
+        <item>@drawable/lutemon_green</item>
+        <item>@drawable/lutemon_black</item>
+    </array>
 </resources>

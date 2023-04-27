@@ -1,5 +1,6 @@
 package com.example.lutemon_game_mobile;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.Arrays;
+
 public class HomeFragment extends Fragment {
 
     private RecyclerView lutemonRecyclerView;
@@ -24,44 +27,46 @@ public class HomeFragment extends Fragment {
     private Button createLutemonButton;
 
     private Lutemon createLutemon(String name, String color) {
-        int attack, defense, maxHealth, imageResource;
+        int[] baseStats = getBaseStatsForColor(color);
+        int imageResource = getImageResourceForColor(color);
 
-        switch (color) {
-            case "White":
-                attack = 5;
-                defense = 4;
-                maxHealth = 20;
-                imageResource = R.drawable.lutemon_white;
-                break;
-            case "Green":
-                attack = 6;
-                defense = 3;
-                maxHealth = 19;
-                imageResource = R.drawable.lutemon_green;
-                break;
-            case "Pink":
-                attack = 7;
-                defense = 2;
-                maxHealth = 18;
-                imageResource = R.drawable.lutemon_pink;
-                break;
-            case "Orange":
-                attack = 8;
-                defense = 1;
-                maxHealth = 17;
-                imageResource = R.drawable.lutemon_orange;
-                break;
-            case "Black":
-                attack = 9;
-                defense = 0;
-                maxHealth = 16;
-                imageResource = R.drawable.lutemon_black;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + color);
-        }
+        int attack = baseStats[0];
+        int defense = baseStats[1];
+        int maxHealth = baseStats[2];
 
         return new Lutemon(name, color, attack, defense, maxHealth, imageResource);
+    }
+
+    private int[] getBaseStatsForColor(String color) {
+        String[] lutemonColors = getResources().getStringArray(R.array.lutemon_colors);
+        int colorIndex = Arrays.asList(lutemonColors).indexOf(color);
+
+        if (colorIndex == -1) {
+            throw new IllegalStateException("Unexpected value: " + color);
+        }
+
+        int[][] lutemonBaseStats = new int[lutemonColors.length][];
+
+        for (int i = 0; i < lutemonColors.length; i++) {
+            lutemonBaseStats[i] = getResources().getIntArray(getResources().obtainTypedArray(R.array.lutemon_base_stats).getResourceId(i, 0));
+        }
+
+        return lutemonBaseStats[colorIndex];
+    }
+
+    private int getImageResourceForColor(String color) {
+        String[] lutemonColors = getResources().getStringArray(R.array.lutemon_colors);
+        int colorIndex = Arrays.asList(lutemonColors).indexOf(color);
+
+        if (colorIndex == -1) {
+            throw new IllegalStateException("Unexpected value: " + color);
+        }
+
+        TypedArray imageResources = getResources().obtainTypedArray(R.array.lutemon_image_resources);
+        int imageResource = imageResources.getResourceId(colorIndex, 0);
+        imageResources.recycle();
+
+        return imageResource;
     }
 
 
