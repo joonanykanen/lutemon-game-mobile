@@ -43,8 +43,8 @@ public class Lutemon {
     }
 
     private boolean isEvade() {
-        // Evasion chance: 15%
-        return random.nextInt(100) < 15;
+        // Evasion chance: 5%
+        return random.nextInt(100) < 5;
     }
 
     public int attack() {
