@@ -38,8 +38,9 @@ public class Storage {
         lutemons.add(lutemon);
     }
 
-    public void removeLutemon(Lutemon lutemon) {
-        lutemons.remove(lutemon);
+    public void removeLutemon(int position) {
+        lutemons.remove(position);
     }
+
 
 }
