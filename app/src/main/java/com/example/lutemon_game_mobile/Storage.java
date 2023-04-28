@@ -1,5 +1,12 @@
 package com.example.lutemon_game_mobile;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,17 +14,43 @@ public class Storage {
 
     private static Storage instance;
     private List<Lutemon> lutemons;
-
-    private Storage() {
+    private static final String LUTEMON_PREFS = "LutemonPrefs";
+    private static final String LUTEMON_KEY = "Lutemons";
+    private Context context;
+    private Storage(Context context) {
+        this.context = context;
         lutemons = new ArrayList<>();
-        initializeLutemons();
+        loadLutemons();
     }
 
-    public static synchronized Storage getInstance() {
+    public static synchronized Storage getInstance(Context context) {
         if (instance == null) {
-            instance = new Storage();
+            instance = new Storage(context);
         }
         return instance;
+    }
+
+    public void saveLutemons() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LUTEMON_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(lutemons);
+        editor.putString(LUTEMON_KEY, json);
+        editor.apply();
+    }
+
+    public void loadLutemons() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LUTEMON_PREFS, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(LUTEMON_KEY, null);
+        Type type = new TypeToken<ArrayList<Lutemon>>() {}.getType();
+        List<Lutemon> loadedLutemons = gson.fromJson(json, type);
+
+        if (loadedLutemons != null) {
+            lutemons.addAll(loadedLutemons);
+        } else {
+            initializeLutemons();
+        }
     }
 
     private void initializeLutemons() {

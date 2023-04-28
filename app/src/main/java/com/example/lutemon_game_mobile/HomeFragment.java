@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             storage.removeLutemon(position);
+                            storage.saveLutemons();
                             lutemonAdapter.notifyItemRemoved(position);
                         }
                     })
@@ -154,7 +155,7 @@ public class HomeFragment extends Fragment {
         lutemonColorSpinner = rootView.findViewById(R.id.lutemonColorSpinner);
         createLutemonButton = rootView.findViewById(R.id.createLutemonButton);
 
-        storage = Storage.getInstance();
+        storage = Storage.getInstance(getActivity());
         lutemonAdapter = new LutemonAdapter(getActivity(), storage.getLutemons());
         lutemonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lutemonRecyclerView.setAdapter(lutemonAdapter);
@@ -167,16 +168,14 @@ public class HomeFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lutemonColorSpinner.setAdapter(adapter);
 
-        createLutemonButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = lutemonNameEditText.getText().toString();
-                String color = lutemonColorSpinner.getSelectedItem().toString();
-                Lutemon newLutemon = createLutemon(name, color);
-                storage.addLutemon(newLutemon);
-                lutemonAdapter.notifyDataSetChanged();
-                lutemonNameEditText.setText("");
-            }
+        createLutemonButton.setOnClickListener(v -> {
+            String name = lutemonNameEditText.getText().toString();
+            String color = lutemonColorSpinner.getSelectedItem().toString();
+            Lutemon newLutemon = createLutemon(name, color);
+            storage.addLutemon(newLutemon);
+            storage.saveLutemons();
+            lutemonAdapter.notifyDataSetChanged();
+            lutemonNameEditText.setText("");
         });
 
         return rootView;

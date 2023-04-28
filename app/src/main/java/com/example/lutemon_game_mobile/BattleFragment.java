@@ -58,7 +58,7 @@ public class BattleFragment extends Fragment {
         lutemonHealthTextA = rootView.findViewById(R.id.lutemonHealthTextA);
         lutemonHealthTextB = rootView.findViewById(R.id.lutemonHealthTextB);
 
-        storage = Storage.getInstance();
+        storage = Storage.getInstance(getActivity());
 
         ArrayAdapter<Lutemon> lutemonArrayAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, storage.getLutemons());

@@ -34,7 +34,7 @@ public class TrainingFragment extends Fragment {
         trainLutemonButton = rootView.findViewById(R.id.trainLutemonButton);
         lutemonImageView = rootView.findViewById(R.id.lutemonImageView);
 
-        storage = Storage.getInstance();
+        storage = Storage.getInstance(getActivity());
 
         ArrayAdapter<Lutemon> lutemonArrayAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, storage.getLutemons());
