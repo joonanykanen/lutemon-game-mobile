@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Arrays;
 
@@ -34,6 +35,7 @@ public class HomeFragment extends Fragment {
     private EditText lutemonNameEditText;
     private Spinner lutemonColorSpinner;
     private Button createLutemonButton;
+    private TextView noLutemonsTextView;
 
     private Lutemon createLutemon(String name, String color) {
         int[] baseStats = getBaseStatsForColor(color);
@@ -101,6 +103,7 @@ public class HomeFragment extends Fragment {
                             storage.removeLutemon(position);
                             storage.saveLutemons();
                             lutemonAdapter.notifyItemRemoved(position);
+                            updateNoLutemonsMessageVisibility();
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -154,11 +157,13 @@ public class HomeFragment extends Fragment {
         lutemonNameEditText = rootView.findViewById(R.id.lutemonNameEditText);
         lutemonColorSpinner = rootView.findViewById(R.id.lutemonColorSpinner);
         createLutemonButton = rootView.findViewById(R.id.createLutemonButton);
+        noLutemonsTextView = rootView.findViewById(R.id.noLutemonsTextView);
 
         storage = Storage.getInstance(getActivity());
         lutemonAdapter = new LutemonAdapter(getActivity(), storage.getLutemons());
         lutemonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lutemonRecyclerView.setAdapter(lutemonAdapter);
+        updateNoLutemonsMessageVisibility();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new LutemonSwipeCallback());
         itemTouchHelper.attachToRecyclerView(lutemonRecyclerView);
@@ -175,9 +180,19 @@ public class HomeFragment extends Fragment {
             storage.addLutemon(newLutemon);
             storage.saveLutemons();
             lutemonAdapter.notifyDataSetChanged();
+            updateNoLutemonsMessageVisibility();
             lutemonNameEditText.setText("");
         });
 
         return rootView;
     }
+
+    private void updateNoLutemonsMessageVisibility() {
+        if (lutemonAdapter.getItemCount() == 0) {
+            noLutemonsTextView.setVisibility(View.VISIBLE);
+        } else {
+            noLutemonsTextView.setVisibility(View.GONE);
+        }
+    }
+
 }
