@@ -2,6 +2,8 @@
 
 Lutemon Game Mobile is a mobile game app for Android that allows users to create, train, and battle with creatures called Lutemons. Players can create Lutemons with unique attributes, train them to improve their abilities, and participate in battles against other Lutemons.
 
+![Game Feature Image](https://github.com/joonanykanen/lutemon-game-mobile/main/lutemon_battle_showcase_28-04-2023.gif)
+
 ## Table of Contents
 
 - [Features](#features)
@@ -16,6 +18,8 @@ Lutemon Game Mobile is a mobile game app for Android that allows users to create
 - Battle with Lutemons to test their strength and strategy
 - Manage and view Lutemons in an organized list
 
+![Game Screenshots](https://github.com/joonanykanen/lutemon-game-mobile/main/lutemon_game_features_28-04-2023.png)
+
 ## Classes
 
 - [MainActivity](#MainActivity)
@@ -25,6 +29,8 @@ Lutemon Game Mobile is a mobile game app for Android that allows users to create
 - [Lutemon](#Lutemon)
 - [LutemonAdapter](#LutemonAdapter)
 - [Storage](#Storage)
+
+![Class Diagram](https://github.com/joonanykanen/lutemon-game-mobile/main/lutemon_game_class_diagram_28-04-2023.png)
 
 ### MainActivity
 
