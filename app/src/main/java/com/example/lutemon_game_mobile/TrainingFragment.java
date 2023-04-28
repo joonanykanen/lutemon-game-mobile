@@ -41,6 +41,14 @@ public class TrainingFragment extends Fragment {
         lutemonArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lutemonSpinner.setAdapter(lutemonArrayAdapter);
 
+        // Check if there are no Lutemons available
+        if (storage.getLutemons().isEmpty()) {
+            lutemonStatsTextView.setText("No Lutemons available. Please add Lutemons first.");
+            lutemonSpinner.setEnabled(false);
+            trainLutemonButton.setEnabled(false);
+            return rootView;
+        }
+
         lutemonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
