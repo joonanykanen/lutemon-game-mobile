@@ -59,6 +59,7 @@ public class TrainingFragment extends Fragment {
                 if (selectedLutemon != null) {
                     selectedLutemon.train();
                     updateLutemonStats();
+                    storage.saveLutemons(); // Save the Lutemons' stats
                 }
             }
         });

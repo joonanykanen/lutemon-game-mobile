@@ -228,6 +228,7 @@ public class BattleFragment extends Fragment {
         lutemonHealthB.setProgress(selectedLutemonB.getHealth()); // Update health bar
         lutemonHealthTextB.setText(selectedLutemonB.getHealth() + "/" + selectedLutemonB.getMaxHealth());
         updateHealthBarColor(lutemonHealthB, selectedLutemonB.getHealth(), selectedLutemonB.getMaxHealth());
+        storage.saveLutemons(); // Save the Lutemons' stats
     }
 
     private void playAttackSound() {
@@ -246,7 +247,15 @@ public class BattleFragment extends Fragment {
         ObjectAnimator attackAnimation = ObjectAnimator.ofFloat(attacker, "translationX", 0, defender.getX() - attacker.getX(), 0);
         attackAnimation.setDuration(500);
 
-        if (isCriticalHit) {
+        if (isCriticalHit && attacker == lutemonIconA) {
+            // Scale animation for critical hit
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(attacker, "scaleX", -1.0f, -1.5f, -1.0f);
+            scaleX.setDuration(500);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(attacker, "scaleY", 1.0f, 1.5f, 1.0f);
+            scaleY.setDuration(500);
+            scaleX.start();
+            scaleY.start();
+        } else if (isCriticalHit && attacker == lutemonIconB) {
             // Scale animation for critical hit
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(attacker, "scaleX", 1.0f, 1.5f, 1.0f);
             scaleX.setDuration(500);
